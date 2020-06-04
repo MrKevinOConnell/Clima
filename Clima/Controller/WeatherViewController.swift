@@ -28,14 +28,18 @@ class WeatherViewController: UIViewController {
     
     @IBOutlet weak var background: UIImageView!
     @IBOutlet weak var searchBar: UITextField!
-    var img = ""
+
     
     let data = getWeatherData()
     override func viewDidLoad() {
+        searchBar.text = "London"
         data.getWeather(city: "London")
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         data.delegate = self
+       
+        
+        // Do any additional setup after loading the view.
+        
     }
     //added a tap gesture so if user clicks outside bar it will be resigned
     @IBAction func onTap(_ sender: Any) {
@@ -64,7 +68,7 @@ extension WeatherViewController: GetWeatherDataDelegate {
             //function that runs the switch statement in the README and returns the string
             func getid(StoreData: StoreData) -> String
             {
-                var id = StoreData.id
+                let id = StoreData.id
                 switch  id {
                 case 200...232:
                     return "cloud.bolt"
@@ -84,7 +88,7 @@ extension WeatherViewController: GetWeatherDataDelegate {
                     return "cloud"
                 }
             }
-            var a = getid(StoreData: StoreData)
+            let a = getid(StoreData: StoreData)
             //changes conditionImageView's image based on what the output of a is
             self.conditionImageView.image = UIImage(systemName: getid(StoreData: StoreData))
             
