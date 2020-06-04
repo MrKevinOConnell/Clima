@@ -27,7 +27,7 @@ class getWeatherData{
             if let finishedData = data {
                 //data parsed
                 if let theData = self.parseJSON(finishedData) {
-                    print("Got data")
+                  
                     self.delegate?.didGetWeather(StoreData: theData)
                 }
             }
@@ -43,7 +43,7 @@ class getWeatherData{
         do
         {
             //collect API data here
-            print(data)
+          
             let weather = try JSONDecoder().decode(GetData.self,from: data)
             let temp = weather.main.temp
             let wind = weather.wind.speed

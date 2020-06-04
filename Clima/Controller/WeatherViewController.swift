@@ -28,7 +28,7 @@ class WeatherViewController: UIViewController {
     
     @IBOutlet weak var background: UIImageView!
     @IBOutlet weak var searchBar: UITextField!
-    
+    var img = ""
     
     let data = getWeatherData()
     override func viewDidLoad() {
@@ -51,7 +51,6 @@ class WeatherViewController: UIViewController {
 }
 
 
-
 //So we can get StoreData data
 extension WeatherViewController: GetWeatherDataDelegate {
     func didGetWeather(StoreData: StoreData)
@@ -62,7 +61,33 @@ extension WeatherViewController: GetWeatherDataDelegate {
             self.temperatureLabel.text = String(StoreData.temp)
             let city = self.searchBar.text
             self.cityLabel.text = city
-            print(StoreData.id)
+            //function that runs the switch statement in the README and returns the string
+            func getid(StoreData: StoreData) -> String
+            {
+                var id = StoreData.id
+                switch  id {
+                case 200...232:
+                    return "cloud.bolt"
+                case 300...321:
+                    return "cloud.drizzle"
+                case 500...531:
+                    return "cloud.rain"
+                case 600...622:
+                    return "cloud.snow"
+                case 701...781:
+                    return "cloud.fog"
+                case 800:
+                    return "sun.max"
+                case 801...804:
+                    return "cloud.bolt"
+                default:
+                    return "cloud"
+                }
+            }
+            var a = getid(StoreData: StoreData)
+            //changes conditionImageView's image based on what the output of a is
+            self.conditionImageView.image = UIImage(systemName: getid(StoreData: StoreData))
+            
             /*
              this might not be organized,but I wanted to keep it async and i didn't know a better way to make it so.
              
@@ -72,16 +97,15 @@ extension WeatherViewController: GetWeatherDataDelegate {
              make them equal to each other
              
              */
-            
             let calendar = Calendar.current
             //users timezone
             var offset = calendar.timeZone.secondsFromGMT()
-            print(offset)
+            
             let date = Date()
             let secondsSince1970 =  date.timeIntervalSince1970
             //City entered timezone
             let cityTimeZone = StoreData.timezone
-            print(StoreData.timezone)
+            
             var time = 0
             //calculate the timezone of user city minus the city entered to get correct timezone in seconds
             time = offset - cityTimeZone
@@ -115,7 +139,7 @@ extension WeatherViewController: GetWeatherDataDelegate {
             let darkUiImage = UIImage(named: darkImage)
             let lightImage = "light_background.pdf"
             let lightUiImage = UIImage(named: lightImage)
-            //if between 5 am and 6 pm display the dark image (personally i think it represents day)
+            //if between 5 am and 6 pm display the dark image (personally I think it represents day)
             if(correctHour >= 5 && correctHour <= 18)
             {
                 self.background.image = darkUiImage
@@ -127,7 +151,8 @@ extension WeatherViewController: GetWeatherDataDelegate {
         }
     }
     //if there is an error entered here in console
-    func didFailWithError(_ error: Error) {
+    func didFailWithError(_ error: Error)
+    {
         //For a later implementation I would make a alert here and display if no city found
         print(error)
     }
