@@ -17,7 +17,7 @@ class getWeatherData{
     var delegate: GetWeatherDataDelegate?
     //calls API
     func getWeather(city: String) {
-        //full api link, in future implemention would make a query so info acn be accessed easier for cities like San Francisco
+        //full api link, in future implemention would make a query so info can be accessed easier for cities like San Francisco
         let link = "https://api.openweathermap.org/data/2.5/weather?appid=882184a28007746af6af44480279fdfd&units=metric&q="+city
         guard let url = URL(string: link) else {
             return
@@ -38,8 +38,10 @@ class getWeatherData{
         
     }
     //very similar to the ByteCoin File in nature
-    func parseJSON(_ data: Data) -> StoreData? {
-        do {
+    func parseJSON(_ data: Data) -> StoreData?
+    {
+        do
+        {
             //collect API data here
             print(data)
             let weather = try JSONDecoder().decode(GetData.self,from: data)
