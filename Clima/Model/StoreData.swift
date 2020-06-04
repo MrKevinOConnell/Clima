@@ -7,7 +7,9 @@
 //
 
 import Foundation
-
+/*
+ structure that stores the data
+ */
 struct StoreData{
     let temp: Double
     let pressure: Int
@@ -15,6 +17,6 @@ struct StoreData{
     let clouds: Int
     let id: Int
     let timezone: Int
-    }
+}
 
 

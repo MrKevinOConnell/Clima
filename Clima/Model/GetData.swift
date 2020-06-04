@@ -7,7 +7,7 @@
 //
 
 import Foundation
-//takes some info from a couple of places, but all im looking from
+//takes some info from a couple of places on the API
 struct GetData: Decodable
 {   let weather: [weather]
     let main: main
