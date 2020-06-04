@@ -33,6 +33,7 @@ class WeatherViewController: UIViewController {
    
     let data = getWeatherData()
     override func viewDidLoad() {
+        data.getWeather(city: "London")
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         data.delegate = self
@@ -111,10 +112,17 @@ extension WeatherViewController: GetWeatherDataDelegate {
             let finalCalender = components.dateComponents([hour,minute,second],from: finalDate)
             
            //For whatever reason the hour is off 4 hours so I just add 4
-            let correctHour = finalCalender.hour!+4
+            var correctHour = finalCalender.hour!+4
+            if(correctHour>=24)
+            {
+                correctHour -= 24
+            }
+            print(correctHour)
             print(finalCalender.minute!)
             print(finalCalender.second!)
-            if(correctHour >= 3)
+            let image1 = "light_background.pdf"
+            let uiImage1 = UIImage(named: image1)
+            if(correctHour >= 5 && correctHour <= 18)
             {
                 let imageName = "dark_background.pdf"
                 let image = UIImage(named: imageName)
@@ -122,9 +130,8 @@ extension WeatherViewController: GetWeatherDataDelegate {
             }
             else
             {
-                let imageName = "light_background.pdf"
-                let image = UIImage(named: imageName)
-                self.background.image = image
+               
+                self.background.image = uiImage1
             }
            
           

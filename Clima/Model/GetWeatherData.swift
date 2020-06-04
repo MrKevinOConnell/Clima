@@ -39,6 +39,7 @@ class getWeatherData{
     func parseJSON(_ data: Data) -> StoreData? {
         do {
             //collect API data here
+            print(data)
             let weather = try JSONDecoder().decode(GetData.self,from: data)
             let temp = weather.main.temp
             let wind = weather.wind.speed
