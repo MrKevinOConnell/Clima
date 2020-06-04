@@ -30,20 +30,19 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var background: UIImageView!
     @IBOutlet weak var searchBar: UITextField!
     
+   
     let data = getWeatherData()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         data.delegate = self
        
-        
     }
     //added a tap gesture so if user clicks outside bar it will be resigned
     @IBAction func onTap(_ sender: Any) {
         print("tapped")
         searchBar.resignFirstResponder()
     }
-    
     //when search button clicked on activates this
     @IBAction func search(_ sender: Any) {
         print("In search")
@@ -69,7 +68,68 @@ extension WeatherViewController: GetWeatherDataDelegate {
             let city = self.searchBar.text
             self.cityLabel.text = city
            print(StoreData.id)
-           //let timezoneSec = StoreData.time
+           
+       
+      /*
+    this might be organized,but I wanted to keep it async and i didn't know a better way to make it so.
+            */
+       print("System Timezone")
+            let calendar = Calendar.current
+            //users timezone
+            var offset = calendar.timeZone.secondsFromGMT()
+            print(offset)
+            let date = Date()
+            let secondsSince1970 =  date.timeIntervalSince1970
+            //city entered timezone
+            let cityTimeZone = StoreData.timezone
+            print(StoreData.timezone)
+            var time = 0
+           //calculate the timezone of user city minus the city entered to get correct timezone in seconds
+             time = offset - cityTimeZone
+            if(time>0)
+            {
+            offset = offset - time
+            }
+            else
+            {
+                offset = offset + time
+            }
+            
+            
+            
+          //calculates the current date
+        let timezoneEpochOffset = (secondsSince1970 + Double(offset))
+          
+       //makes a date so we can mess with the data
+        let finalDate = Date(timeIntervalSince1970: timezoneEpochOffset)
+            print(finalDate)
+            //organization
+            let components = calendar
+            let hour = Calendar.Component.hour
+            let minute = Calendar.Component.minute
+            let second = Calendar.Component.second
+            let finalCalender = components.dateComponents([hour,minute,second],from: finalDate)
+            
+           //For whatever reason the hour is off 4 hours so I just add 4
+            let correctHour = finalCalender.hour!+4
+            print(finalCalender.minute!)
+            print(finalCalender.second!)
+            if(correctHour >= 3)
+            {
+                let imageName = "dark_background.pdf"
+                let image = UIImage(named: imageName)
+                self.background.image = image
+            }
+            else
+            {
+                let imageName = "light_background.pdf"
+                let image = UIImage(named: imageName)
+                self.background.image = image
+            }
+           
+          
+          
+            
         }
     }
     

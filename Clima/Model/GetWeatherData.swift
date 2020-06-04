@@ -45,9 +45,9 @@ class getWeatherData{
             let pressure = weather.main.pressure
             let clouds  = weather.clouds.all
             let id = weather.weather[0].id
-            let timezone = weather.timezone
-            let storeData = StoreData(temp: temp,pressure:pressure, speed:wind, clouds: clouds,id:id,timezone: timezone )
-            print(storeData.temp)
+            var timezone = weather.timezone
+            var storeData = StoreData(temp: temp,pressure:pressure, speed:wind, clouds: clouds,id:id,timezone: timezone )
+            
                return storeData
            }
            catch let error
