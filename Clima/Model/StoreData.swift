@@ -10,6 +10,9 @@ import Foundation
 /*
  structure that stores the data
  */
+
+
+//what is up guys
 struct StoreData{
     let temp: Double
     let pressure: Int
